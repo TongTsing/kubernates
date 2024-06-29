@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: heketi
+  namespace: default
+spec:
+  ports:
+  - port: 8080
+    name: heketi
+  selector:
+    glusterfs: heketi
+
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: heketi
+  namespace: default
+subsets:
+  - addresses:
+      - ip: 172.16.1.11
+    ports:
+      - port: 8088
+

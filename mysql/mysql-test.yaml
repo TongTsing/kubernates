@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  ports:
+    - name: mysql
+      port: 3306
+  clusterIP: None
+  selector:
+    app: mysql
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-statefulset
+spec:
+  serviceName: "mysql-service"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      volumes:
+        - name: mysql-data
+          emptyDir: {}
+      containers:
+        - name: mysql
+          image: mysql:latest
+          ports:
+            - containerPort: 3306
+              name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "123456"
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+        - name: busybox
+          image: busybox:latest
+          command: ["/bin/sh", "-c", "while true; do echo Hello from BusyBox; sleep 10; done"]
+

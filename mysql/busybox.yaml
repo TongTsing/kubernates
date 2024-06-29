@@ -1,0 +1,26 @@
+epiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: busybox
+spec:
+  serviceName: "busybox"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: busybox
+        image: busybox:latest
+        command:
+          - "/bin/sh"
+          - "-c"
+          - "while true; do sleep 3600; done"
+        tty: true
+        stdin: true
+
