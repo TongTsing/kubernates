@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 epiVersion: apps/v1
+=======
+apiVersion: apps/v1
+>>>>>>> origin/main
 kind: StatefulSet
 metadata:
   name: busybox
 spec:
+<<<<<<< HEAD
   serviceName: "busybox"
   replicas: 1
   selector:
@@ -12,6 +17,17 @@ spec:
     metadata:
       labels:
         app: busybox
+=======
+  serviceName: "mysql-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+>>>>>>> origin/main
     spec:
       terminationGracePeriodSeconds: 10
       containers:
